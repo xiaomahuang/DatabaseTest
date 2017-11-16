@@ -1,0 +1,4 @@
+
+1、greenDao与realm想比用法的话，greenDao更好使用。
+2、你几乎可以把 RealmObject 当作 POJO 使用。可以不用创建set和get
+RealmObject 是实时的、自动更新的底层数据的映射视图
