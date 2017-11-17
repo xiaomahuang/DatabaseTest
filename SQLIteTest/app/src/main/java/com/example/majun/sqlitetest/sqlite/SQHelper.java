@@ -1,4 +1,4 @@
-package com.example.majun.sqlitetest;
+package com.example.majun.sqlitetest.sqlite;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -25,10 +25,9 @@ public class SQHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-//        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS person(_id INTEGER NOT NULL PRIMARY KEY,name VARCHAR,age INTEGER,info TEXT,name2 VARCHAR,"
-//                + "age2 INTEGER,info2 TEXT,name3 VARCHAR,age3 INTEGER,info3 TEXT)");
-        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS person(_id INTEGER NOT NULL PRIMARY KEY,s1 TEXT,s2 TEXT,s3 TEXT,s4 TEXT,"
-                + "s5 TEXT,s6 TEXT,s7 TEXT,s8 TEXT,s9 TEXT)");
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS person(_id INTEGER NOT NULL PRIMARY KEY,name VARCHAR,age INTEGER,info TEXT)");
+//        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS person(_id INTEGER NOT NULL PRIMARY KEY,s1 TEXT,s2 TEXT,s3 TEXT,s4 TEXT,"
+//                + "s5 TEXT,s6 TEXT,s7 TEXT,s8 TEXT,s9 TEXT)");
     }
 
     /**

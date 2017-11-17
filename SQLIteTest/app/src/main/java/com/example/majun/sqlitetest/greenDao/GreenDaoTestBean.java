@@ -10,115 +10,57 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class GreenDaoTestBean {
 
-//    @Id(autoincrement = true)
-//    private long id;
+    //这边的id的类型必须设置成Long，如果设置自增长的话就不用设置具体的ID的值了
+    @Id(autoincrement = true)
+    private Long id;
 
-    private String s1;
+    private String name;
 
-    private String s2;
+    private long age;
 
-    private String s3;
+    private String info;
 
-    private String s4;
-
-    private String s5;
-
-    private String s6;
-
-    private String s7;
-
-    private String s8;
-
-    private String s9;
-
-    @Generated(hash = 773272787)
-    public GreenDaoTestBean(String s1, String s2, String s3, String s4, String s5,
-            String s6, String s7, String s8, String s9) {
-        this.s1 = s1;
-        this.s2 = s2;
-        this.s3 = s3;
-        this.s4 = s4;
-        this.s5 = s5;
-        this.s6 = s6;
-        this.s7 = s7;
-        this.s8 = s8;
-        this.s9 = s9;
+    @Generated(hash = 77176132)
+    public GreenDaoTestBean(Long id, String name, long age, String info) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.info = info;
     }
 
     @Generated(hash = 1284949051)
     public GreenDaoTestBean() {
     }
 
-
-    public String getS1() {
-        return this.s1;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setS1(String s1) {
-        this.s1 = s1;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getS2() {
-        return this.s2;
+    public String getName() {
+        return this.name;
     }
 
-    public void setS2(String s2) {
-        this.s2 = s2;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getS3() {
-        return this.s3;
+    public long getAge() {
+        return this.age;
     }
 
-    public void setS3(String s3) {
-        this.s3 = s3;
+    public void setAge(long age) {
+        this.age = age;
     }
 
-    public String getS4() {
-        return this.s4;
+    public String getInfo() {
+        return this.info;
     }
 
-    public void setS4(String s4) {
-        this.s4 = s4;
-    }
-
-    public String getS5() {
-        return this.s5;
-    }
-
-    public void setS5(String s5) {
-        this.s5 = s5;
-    }
-
-    public String getS6() {
-        return this.s6;
-    }
-
-    public void setS6(String s6) {
-        this.s6 = s6;
-    }
-
-    public String getS7() {
-        return this.s7;
-    }
-
-    public void setS7(String s7) {
-        this.s7 = s7;
-    }
-
-    public String getS8() {
-        return this.s8;
-    }
-
-    public void setS8(String s8) {
-        this.s8 = s8;
-    }
-
-    public String getS9() {
-        return this.s9;
-    }
-
-    public void setS9(String s9) {
-        this.s9 = s9;
+    public void setInfo(String info) {
+        this.info = info;
     }
 }

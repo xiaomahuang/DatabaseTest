@@ -14,59 +14,66 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.majun.sqlitetest.greenDao.GreenDaoManager;
+import com.example.majun.sqlitetest.realm.RealmManager;
+import com.example.majun.sqlitetest.sqlite.SqliteManager;
+
 public class MainActivity extends AppCompatActivity {
 
     private ListView mListView;
 
-    private DataManager mDataManager;
+    private SqliteManager mSqliteManager;
+
+    private GreenDaoManager mGreenDaoManager;
+
+    private RealmManager mRealmManager;
+
+    public static Integer COUNT = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mListView = (ListView) findViewById(R.id.listView);
-        mDataManager = new DataManager(this);
+        mSqliteManager = new SqliteManager(this);
+        mGreenDaoManager = new GreenDaoManager();
+        mRealmManager = new RealmManager();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mDataManager.closeDatabase();
+        mSqliteManager.closeDatabase();
     }
 
     public void add(View view) {
-        List<Person> persons = new ArrayList<>();
-
-        Person person1 = new Person("Ella", 22, "lively girl");
-        Person person2 = new Person("Jenny", 22, "beautiful girl");
-        Person person3 = new Person("Jessica", 23, "sexy girl");
-        Person person4 = new Person("Kelly", 23, "hot baby");
-        Person person5 = new Person("Jane", 25, "a pretty woman");
-
-        persons.add(person1);
-        persons.add(person2);
-        persons.add(person3);
-        persons.add(person4);
-        persons.add(person5);
-
-        mDataManager.addPersons(persons);
+        Thread thread1 = new Thread() {
+            @Override
+            public void run() {
+                mSqliteManager.addPersons();
+                mGreenDaoManager.insertGreenDao();
+                mRealmManager.insertRealm();
+            }
+        };
+        thread1.start();
     }
 
     public void update(View view) {
         Person person = new Person();
-        person.name = "Jane";
-        person.age = 30;
-        mDataManager.updateAge(person);
+        person.age = 3;
+        person.info = "不错哦，6666666";
+        mSqliteManager.update(person);
+        mGreenDaoManager.update(person);
     }
 
     public void delete(View view) {
         Person person = new Person();
         person.age = 0;
-        mDataManager.deleteOldPerson(person);
+        mSqliteManager.deleteOldPerson(person);
     }
 
     public void query(View view) {
-        List<Person> persons = mDataManager.getPersons();
+        List<Person> persons = mSqliteManager.getPersons();
         ArrayList<Map<String, String>> list = new ArrayList<>();
         for (Person person : persons) {
             HashMap<String, String> map = new HashMap<>();
@@ -79,9 +86,16 @@ public class MainActivity extends AppCompatActivity {
         mListView.setAdapter(adapter);
     }
 
-    public void queryTheCursor(View view) {
-        Cursor c = mDataManager.getDatabaseCursor();
-        startManagingCursor(c); //托付给activity根据自己的生命周期去管理Cursor的生命周期
+    public void deleteTable(View view) {
+        mSqliteManager.deleteTable();
+    }
+
+    /**
+     * 托付给activity根据自己的生命周期去管理Cursor的生命周期
+     */
+    public void queryTheCursor() {
+        Cursor c = mSqliteManager.getDatabaseCursor();
+        startManagingCursor(c);
         CursorWrapper cursorWrapper = new CursorWrapper(c) {
             @Override
             public String getString(int columnIndex) {
@@ -98,29 +112,6 @@ public class MainActivity extends AppCompatActivity {
                 cursorWrapper, new String[]{"name", "info"}, new int[]{android.R.id.text1, android.R.id.text2});
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(adapter);
-    }
-
-    public void insertTest(View view) {
-        Thread thread1 = new Thread() {
-            @Override
-            public void run() {
-                mDataManager.insertWithPreCompiledStatement();
-                mDataManager.insertGreenDao();
-                mDataManager.insertRealm();
-            }
-        };
-//        Thread thread2 = new Thread() {
-//            @Override
-//            public void run() {
-//                mDataManager.insertGreenDao();
-//            }
-//        };
-//        thread2.start();
-        thread1.start();
-    }
-
-    public void deleteTable(View view) {
-        mDataManager.deleteTable();
     }
 
 }

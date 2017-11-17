@@ -36,20 +36,6 @@
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:onClick="queryTheCursor"
-        android:text="queryTheCursor"
-        />
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:onClick="insertTest"
-        android:text="insertTest"
-        />
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
         android:onClick="deleteTable"
         android:text="deleteTable"
         />
