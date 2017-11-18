@@ -15,7 +15,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.majun.sqlitetest.greenDao.GreenDaoManager;
+import com.example.majun.sqlitetest.greenDao.GreenDaoTestBean;
 import com.example.majun.sqlitetest.realm.RealmManager;
+import com.example.majun.sqlitetest.realm.RealmTeatBean;
 import com.example.majun.sqlitetest.sqlite.SqliteManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RealmManager mRealmManager;
 
-    public static Integer COUNT = 100;
+    public static Integer COUNT = 10000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mSqliteManager.closeDatabase();
+        mRealmManager.onDestory();
     }
 
     public void add(View view) {
@@ -60,34 +63,47 @@ public class MainActivity extends AppCompatActivity {
 
     public void update(View view) {
         Person person = new Person();
-        person.age = 3;
-        person.info = "不错哦，6666666";
+        person.setAge(3);
+        person.setInfo("不错哦，6666666");
         mSqliteManager.update(person);
         mGreenDaoManager.update(person);
+        mRealmManager.update(person);
     }
 
     public void delete(View view) {
         Person person = new Person();
-        person.age = 0;
+        person.setAge(0);
         mSqliteManager.deleteOldPerson(person);
+        mGreenDaoManager.deleteOldPerson(person);
+        mRealmManager.deleteOldPerson(person);
     }
 
     public void query(View view) {
         List<Person> persons = mSqliteManager.getPersons();
+        List<GreenDaoTestBean> greenDaoTestBeans = mGreenDaoManager.getUserAll();
+        List<RealmTeatBean> realmTeatBeans = mRealmManager.getUserAll();
         ArrayList<Map<String, String>> list = new ArrayList<>();
         for (Person person : persons) {
             HashMap<String, String> map = new HashMap<>();
-            map.put("name", person.name);
-            map.put("info", person.age + " years old, " + person.info);
+            map.put("name", person.getName());
+            map.put("info", person.getAge() + " years old, " + person.getInfo());
+            list.add(map);
+        }
+        for (GreenDaoTestBean greenDaoTestBean : greenDaoTestBeans) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("name", greenDaoTestBean.getName());
+            map.put("info", greenDaoTestBean.getAge() + " years old, " + greenDaoTestBean.getInfo());
+            list.add(map);
+        }
+        for (RealmTeatBean realmTeatBean : realmTeatBeans) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("name", realmTeatBean.name);
+            map.put("info", realmTeatBean.age + " years old, " + realmTeatBean.info);
             list.add(map);
         }
         SimpleAdapter adapter = new SimpleAdapter(this, list, android.R.layout.simple_list_item_2,
                 new String[]{"name", "info"}, new int[]{android.R.id.text1, android.R.id.text2});
         mListView.setAdapter(adapter);
-    }
-
-    public void deleteTable(View view) {
-        mSqliteManager.deleteTable();
     }
 
     /**

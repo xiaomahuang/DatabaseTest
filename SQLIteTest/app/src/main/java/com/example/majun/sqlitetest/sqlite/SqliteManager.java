@@ -70,7 +70,7 @@ public class SqliteManager {
                 sqLiteStatement.clearBindings();
                 sqLiteStatement.bindString(1, "majun");
                 sqLiteStatement.bindLong(2, count);
-                sqLiteStatement.bindString(3, "qwertyuiopasdfghjklzxcvbnm");
+                sqLiteStatement.bindString(3, "简介：sqlite");
                 sqLiteStatement.executeInsert();
             }
         } catch (Exception e) {
@@ -83,13 +83,17 @@ public class SqliteManager {
     }
 
     public void update(Person person) {
+        float currentTime = System.nanoTime();
         ContentValues contentValues = new ContentValues();
         contentValues.put("info", person.getInfo());
         sqLiteDatabase.update("person", contentValues, "age>?", new String[]{String.valueOf(person.getAge())});
+        Log.d("sqlite_demo", "time：" + (System.nanoTime() - currentTime) / 1000000000);
     }
 
     public void deleteOldPerson(Person person) {
+        float currentTime = System.nanoTime();
         sqLiteDatabase.delete("person", "age>=?", new String[]{String.valueOf(person.getAge())});
+        Log.d("sqlite_demo", "time：" + (System.nanoTime() - currentTime) / 1000000000);
     }
 
     public Cursor getDatabaseCursor() {
@@ -111,17 +115,12 @@ public class SqliteManager {
         return persons;
     }
 
-    public void deleteTable() {
-        sqLiteDatabase.execSQL("DROP TABLE person");
-        float currentTime = System.nanoTime();
-        MyApplication.getDaoSession().getGreenDaoTestBeanDao().deleteAll();
-        Realm realm = Realm.getDefaultInstance();
-        final RealmResults<RealmTeatBean> results = realm.where(RealmTeatBean.class)
-                .findAll();
-        realm.beginTransaction();
-        results.createSnapshot().deleteAllFromRealm();
-        realm.commitTransaction();
-    }
+//    public void deleteTable() {
+//        sqLiteDatabase.execSQL("DROP TABLE person");
+//        float currentTime = System.nanoTime();
+//        MyApplication.getDaoSession().getGreenDaoTestBeanDao().deleteAll();
+
+//    }
 
     public void closeDatabase() {
         sqLiteDatabase.close();

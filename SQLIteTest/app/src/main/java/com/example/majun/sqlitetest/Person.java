@@ -6,10 +6,10 @@ import java.io.Serializable;
  * Created by majun on 16/12/15.
  */
 public class Person implements Serializable {
-    public int id;
-    public String name;
-    public int age;
-    public String info;
+    private int id;
+    private String name;
+    private int age;
+    private String info;
 
     public Person(String name, int age, String info) {
         this.age = age;
