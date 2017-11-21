@@ -18,6 +18,8 @@ import com.example.majun.sqlitetest.greenDao.GreenDaoManager;
 import com.example.majun.sqlitetest.greenDao.GreenDaoTestBean;
 import com.example.majun.sqlitetest.realm.RealmManager;
 import com.example.majun.sqlitetest.realm.RealmTeatBean;
+import com.example.majun.sqlitetest.room.RoomManager;
+import com.example.majun.sqlitetest.room.RoomTestBean;
 import com.example.majun.sqlitetest.sqlite.SqliteManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
     private RealmManager mRealmManager;
 
+    private RoomManager mRoomManager;
+
     public static Integer COUNT = 10000;
 
     @Override
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         mSqliteManager = new SqliteManager(this);
         mGreenDaoManager = new GreenDaoManager();
         mRealmManager = new RealmManager();
+        mRoomManager = new RoomManager(this);
     }
 
     @Override
@@ -50,38 +55,52 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void add(View view) {
-        Thread thread1 = new Thread() {
+        new Thread() {
             @Override
             public void run() {
                 mSqliteManager.addPersons();
                 mGreenDaoManager.insertGreenDao();
                 mRealmManager.insertRealm();
+                mRoomManager.insert();
             }
-        };
-        thread1.start();
+        }.start();
     }
 
     public void update(View view) {
-        Person person = new Person();
+        final Person person = new Person();
         person.setAge(3);
         person.setInfo("不错哦，6666666");
-        mSqliteManager.update(person);
-        mGreenDaoManager.update(person);
-        mRealmManager.update(person);
+        new Thread() {
+            @Override
+            public void run() {
+                mSqliteManager.update(person);
+                mGreenDaoManager.update(person);
+                mRealmManager.update(person);
+                mRoomManager.update(person);
+            }
+        }.start();
+
     }
 
     public void delete(View view) {
-        Person person = new Person();
+        final Person person = new Person();
         person.setAge(0);
-        mSqliteManager.deleteOldPerson(person);
-        mGreenDaoManager.deleteOldPerson(person);
-        mRealmManager.deleteOldPerson(person);
+        new Thread() {
+            @Override
+            public void run() {
+                mSqliteManager.deleteOldPerson(person);
+                mGreenDaoManager.deleteOldPerson(person);
+                mRealmManager.deleteOldPerson(person);
+                mRoomManager.delete(person);
+            }
+        }.start();
     }
 
     public void query(View view) {
         List<Person> persons = mSqliteManager.getPersons();
         List<GreenDaoTestBean> greenDaoTestBeans = mGreenDaoManager.getUserAll();
         List<RealmTeatBean> realmTeatBeans = mRealmManager.getUserAll();
+        List<RoomTestBean> roomTestBeans = mRoomManager.getAllUser();
         ArrayList<Map<String, String>> list = new ArrayList<>();
         for (Person person : persons) {
             HashMap<String, String> map = new HashMap<>();
@@ -99,6 +118,12 @@ public class MainActivity extends AppCompatActivity {
             HashMap<String, String> map = new HashMap<>();
             map.put("name", realmTeatBean.name);
             map.put("info", realmTeatBean.age + " years old, " + realmTeatBean.info);
+            list.add(map);
+        }
+        for (RoomTestBean roomTestBean : roomTestBeans) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("name", roomTestBean.name);
+            map.put("info", roomTestBean.age + " years old, " + roomTestBean.info);
             list.add(map);
         }
         SimpleAdapter adapter = new SimpleAdapter(this, list, android.R.layout.simple_list_item_2,
