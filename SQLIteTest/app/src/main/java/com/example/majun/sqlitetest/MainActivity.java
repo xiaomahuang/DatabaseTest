@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         List<Person> persons = mSqliteManager.getPersons();
         List<GreenDaoTestBean> greenDaoTestBeans = mGreenDaoManager.getUserAll();
         List<RealmTeatBean> realmTeatBeans = mRealmManager.getUserAll();
-        List<RoomTestBean> roomTestBeans = mRoomManager.getAllUser();
+//        List<RoomTestBean> roomTestBeans = mRoomManager.getAllUser();
         ArrayList<Map<String, String>> list = new ArrayList<>();
         for (Person person : persons) {
             HashMap<String, String> map = new HashMap<>();
@@ -120,12 +120,12 @@ public class MainActivity extends AppCompatActivity {
             map.put("info", realmTeatBean.age + " years old, " + realmTeatBean.info);
             list.add(map);
         }
-        for (RoomTestBean roomTestBean : roomTestBeans) {
-            HashMap<String, String> map = new HashMap<>();
-            map.put("name", roomTestBean.name);
-            map.put("info", roomTestBean.age + " years old, " + roomTestBean.info);
-            list.add(map);
-        }
+//        for (RoomTestBean roomTestBean : roomTestBeans) {
+//            HashMap<String, String> map = new HashMap<>();
+//            map.put("name", roomTestBean.name);
+//            map.put("info", roomTestBean.age + " years old, " + roomTestBean.info);
+//            list.add(map);
+//        }
         SimpleAdapter adapter = new SimpleAdapter(this, list, android.R.layout.simple_list_item_2,
                 new String[]{"name", "info"}, new int[]{android.R.id.text1, android.R.id.text2});
         mListView.setAdapter(adapter);
