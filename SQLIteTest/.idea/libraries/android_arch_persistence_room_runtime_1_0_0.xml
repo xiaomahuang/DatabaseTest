@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="android.arch.persistence.room:runtime-1.0.0">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/633b8a454d3f5d387b6732ff0b8d9c9bfde4b410/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/633b8a454d3f5d387b6732ff0b8d9c9bfde4b410/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
