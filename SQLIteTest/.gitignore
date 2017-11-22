@@ -1,3 +1,20 @@
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+.idea
+/gradle
+/freeline
+/freeline_core
+freeline.py
+freeline_project_description.json
+temp
+install_plugin2.sh
+clear-fix-branch.sh
+
 # Built application files
 *.apk
 *.ap_
